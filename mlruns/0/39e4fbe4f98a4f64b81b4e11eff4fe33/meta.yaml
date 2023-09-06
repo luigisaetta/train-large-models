@@ -1,0 +1,15 @@
+artifact_uri: file:///home/datascience/train-large-models/mlruns/0/39e4fbe4f98a4f64b81b4e11eff4fe33/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 39e4fbe4f98a4f64b81b4e11eff4fe33
+run_name: /mnt/output
+run_uuid: 39e4fbe4f98a4f64b81b4e11eff4fe33
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1694006349234
+status: 1
+tags: []
+user_id: datascience
