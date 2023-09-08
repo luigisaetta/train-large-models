@@ -59,19 +59,21 @@ from transformers.trainer_utils import get_last_checkpoint, is_main_process
 from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
 
+# some settings
+import my_config
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 # check_min_version("4.30.0.dev0")
-check_min_version("4.29")
+check_min_version("4.30")
 
 require_version("datasets>=1.18.0", "To fix: pip install -r examples/pytorch/speech-recognition/requirements.txt")
 
 logger = logging.getLogger(__name__)
 
-# login
-MY_TOKEN = "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"
+# login to HF Hub
+# MY_TOKEN = "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"
 
-huggingface_hub.login(token=MY_TOKEN)
+huggingface_hub.login(token=my_config.MY_TOKEN)
 
 @dataclass
 class ModelArguments:
