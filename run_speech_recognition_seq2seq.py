@@ -71,8 +71,6 @@ require_version("datasets>=1.18.0", "To fix: pip install -r examples/pytorch/spe
 logger = logging.getLogger(__name__)
 
 # login to HF Hub
-# MY_TOKEN = "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"
-
 huggingface_hub.login(token=my_config.MY_TOKEN)
 
 @dataclass
