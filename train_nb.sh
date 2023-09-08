@@ -5,9 +5,9 @@ LOCAL_RANK=0,1 CUDA_VISIBLE_DEVICES=0,1 \
 torchrun \
  	--nproc_per_node 2 \
     run_speech_recognition_seq2seq.py \
-	--model_name_or_path="openai/whisper-medium" \
+	--model_name_or_path="luigisaetta/whisper-atcosim3" \
 	--dataset_name="luigisaetta/atco2" \
-	--language="en" \
+    --language="en" \
 	--train_split_name="train" \
 	--eval_split_name="test" \
 	--max_steps="1000" \
