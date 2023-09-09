@@ -59,7 +59,8 @@ from transformers.trainer_utils import get_last_checkpoint, is_main_process
 from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
 
-# some settings
+# some settings not showed in the GitHub repo
+# (ex: HF Hub Token)
 import my_config
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
@@ -426,7 +427,10 @@ def main():
     if model_args.freeze_encoder:
         model.freeze_encoder()
         model.model.encoder.gradient_checkpointing = False
-
+    
+    # added by LS (8/09/2023)
+    model.config.use_cache = False
+    
     if data_args.language is not None:
         # We only need to set the task id when the language is specified (i.e. in a multilingual setting)
         tokenizer.set_prefix_tokens(language=data_args.language, task=data_args.task)
