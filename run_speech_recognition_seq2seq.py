@@ -428,7 +428,7 @@ def main():
         model.freeze_encoder()
         model.model.encoder.gradient_checkpointing = False
     
-    # added by LS (8/09/2023)
+    # added by LS (8/09/2023) to avoid warning for incompatibility with gradient_accumulation
     model.config.use_cache = False
     
     if data_args.language is not None:
