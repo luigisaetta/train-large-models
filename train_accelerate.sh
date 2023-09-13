@@ -1,6 +1,8 @@
 # Modern version, based on Torchrun
 # max_steps="800"
 # warmup_steps="200"
+export WANDB_DISABLED=True
+
 accelerate launch \
     run_speech_recognition_seq2seq.py \
 	--model_name_or_path="openai/whisper-medium" \
