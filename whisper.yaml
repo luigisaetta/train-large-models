@@ -1,0 +1,76 @@
+kind: job
+apiVersion: v1.0
+spec:
+  name: Whisper-Fine-Tuning
+  infrastructure:
+    kind: infrastructure
+    spec:
+      blockStorageSize: 2048
+      logGroupId: ocid1.loggroup.oc1.eu-frankfurt-1.amaaaaaangencdyazs4l4rzrzsarlej6mqlwlbz6bmnx4adwdlssveam2jaa
+      logId: ocid1.log.oc1.eu-frankfurt-1.amaaaaaangencdya47httqmxyiew5tkxa6l7gekev2ljpasixuhmp2fa3v5q
+      subnetId: ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabq4iat6nlc4yc35tfkpluds7dsenj74opliz346wxoviezwuvsqa
+      shapeName: VM.GPU.A10.2
+    type: dataScienceJob
+  runtime:
+    kind: runtime
+    type: pyTorchDistributed
+    spec:
+      git:
+        url: https://github.com/luigisaetta/train-large-models.git
+      command: >-
+        torchrun run_speech_recognition_seq2seq_jobs.py
+        --model_name_or_path=$MODEL_NAME
+        --dataset_name="luigisaetta/atco2_atcosim"
+        --language="en"
+        --train_split_name="train"
+        --eval_split_name="test"
+        --max_steps="100"
+        --output_dir="/home/datascience/outputs"
+        --per_device_train_batch_size="2"
+        --per_device_eval_batch_size="8"
+        --logging_steps="25"
+        --learning_rate="1e-5"
+        --warmup_steps="50"
+        --evaluation_strategy="steps"
+        --eval_steps="50"
+        --save_strategy="steps"
+        --save_steps="50"
+        --generation_max_length="225"
+        --length_column_name="input_length"
+        --max_duration_in_seconds="30"
+        --text_column_name="sentence"
+        --freeze_feature_encoder="False"
+        --gradient_checkpointing
+        --gradient_accumulation_steps=8
+        --fp16
+        --overwrite_output_dir
+        --do_train
+        --do_eval
+        --predict_with_generate
+        --use_auth_token
+      replicas: 2
+      conda:
+        type: service
+        slug: pytorch20_p39_gpu_v2
+      dependencies:
+        pipPackages: >-
+          --extra-index-url https://download.pytorch.org/whl/cu118 torch==2.1.0
+          accelerate==0.22.0
+          datasets==2.14.5
+          evaluate==0.4.0
+          huggingface-hub==0.17.1
+          jiwer==3.0.3
+          librosa==0.10.1
+          transformers==4.33.1
+          sentencepiece==0.1.99
+          scipy==1.10.0
+          optimum==1.13.1
+      outputDir: /home/datascience/outputs
+      outputUri: oci://whisper_distributed_training@frqap2zhtzbe/$JOB_OCID
+      env:
+        - name: MODEL_NAME
+          value: openai/whisper-medium
+        - name: HUGGING_FACE_HUB_TOKEN
+          value: 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
+        - name: LD_LIBRARY_PATH
+          value: /usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/conda/lib
